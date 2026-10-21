@@ -50,7 +50,7 @@ export const InviteMemberModal = ({ isOpen, onClose, group, onMemberAdded }) => 
         inviteCode
       });
 
-      setSuccessMsg(response.data.message || `6-digit OTP code dispatched to ${inviteEmail.trim()}`);
+      setSuccessMsg(response.data.message || `6-Digit OTP sent successfully to ${inviteEmail.trim()}. Please check in Spam email box`);
       setStep(2); // Automatically transition to Step 2 for OTP input!
     } catch (err) {
       setErrorMsg(err.response?.data?.message || 'Failed to send OTP invite. Please try again.');
@@ -212,7 +212,10 @@ export const InviteMemberModal = ({ isOpen, onClose, group, onMemberAdded }) => 
             <form onSubmit={handleVerifyOtp} className="space-y-4">
               <div className="p-3 bg-violet-50 border border-violet-200 rounded-2xl text-xs text-violet-800 space-y-1">
                 <p className="font-bold">✉️ OTP Sent to: <span className="underline">{inviteEmail}</span></p>
-                <p className="text-[11px] text-violet-600">Please enter the 6-digit code received in the inbox below to confirm member entry.</p>
+                <p className="text-[11px] text-violet-600">Please enter the 6-digit code received below to confirm member entry.</p>
+                <p className="text-[11px] font-semibold text-violet-900 bg-violet-100/70 px-2.5 py-1.5 rounded-xl border border-violet-200">
+                  ⚠️ Please check in Spam email box if you don't find it in your inbox.
+                </p>
               </div>
 
               <div>

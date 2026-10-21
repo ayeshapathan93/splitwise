@@ -331,7 +331,7 @@ const sendInviteOtp = async (req, res) => {
     });
 
     res.json({
-      message: `6-Digit OTP sent successfully to ${cleanEmail}`,
+      message: `6-Digit OTP sent successfully to ${cleanEmail}. Please check in Spam email box`,
       devOtp: otp, // Included for instant local dev testing
       groupName: group.name
     });
