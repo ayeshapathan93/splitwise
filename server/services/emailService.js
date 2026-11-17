@@ -39,14 +39,8 @@ const generate6DigitOtp = () => {
 const sendInviteOtpEmail = async ({ email, name, groupName, otp }) => {
   const senderEmail = process.env.SMTP_USER || process.env.GMAIL_USER || process.env.EMAIL_USER || 'no-reply@equallysplit.com';
   
-  console.log('\n==========================================');
-  console.log(`🔑 [GROUP INVITE OTP GENERATED FOR ${email}]`);
-  console.log(`👤 Name: ${name}`);
-  console.log(`🏷️ Group: ${groupName}`);
-  console.log(`✨ 6-DIGIT OTP CODE: [ ${otp} ]`);
-  console.log('==========================================\n');
-
   const transporter = createTransporter();
+  if (!transporter) throw new Error('Email delivery is not configured. Set SMTP_USER and SMTP_PASS in server/.env.');
   
   if (transporter) {
     try {
@@ -70,12 +64,9 @@ const sendInviteOtpEmail = async ({ email, name, groupName, otp }) => {
       console.log(`✉️ SUCCESS: Real Email OTP sent to inbox of ${email}`);
       return { success: true };
     } catch (err) {
-      console.error('❌ Nodemailer Error sending real email:', err.message);
-      return { success: false, error: err.message };
+      console.error('Email delivery failed:', err.message);
+      throw new Error('Could not deliver the OTP email. Check SMTP settings and try again.');
     }
-  } else {
-    console.warn(`⚠️ REAL EMAIL NOT SENT: Please set SMTP_USER and SMTP_PASS in server/.env file.`);
-    return { success: false, reason: 'NO_SMTP_CONFIG' };
   }
 };
 
@@ -85,13 +76,8 @@ const sendInviteOtpEmail = async ({ email, name, groupName, otp }) => {
 const sendRegisterOtpEmail = async ({ email, name, otp }) => {
   const senderEmail = process.env.SMTP_USER || process.env.GMAIL_USER || process.env.EMAIL_USER || 'no-reply@equallysplit.com';
   
-  console.log('\n==========================================');
-  console.log(`🔑 [REGISTER OTP GENERATED FOR ${email}]`);
-  console.log(`👤 Name: ${name}`);
-  console.log(`✨ 6-DIGIT OTP CODE: [ ${otp} ]`);
-  console.log('==========================================\n');
-
   const transporter = createTransporter();
+  if (!transporter) throw new Error('Email delivery is not configured. Set SMTP_USER and SMTP_PASS in server/.env.');
   
   if (transporter) {
     try {
@@ -114,12 +100,9 @@ const sendRegisterOtpEmail = async ({ email, name, otp }) => {
       console.log(`✉️ SUCCESS: Registration Real Email OTP sent to ${email}`);
       return { success: true };
     } catch (err) {
-      console.error('❌ Nodemailer Error sending registration email:', err.message);
-      return { success: false, error: err.message };
+      console.error('Email delivery failed:', err.message);
+      throw new Error('Could not deliver the OTP email. Check SMTP settings and try again.');
     }
-  } else {
-    console.warn(`⚠️ REAL EMAIL NOT SENT: Please set SMTP_USER and SMTP_PASS in server/.env file.`);
-    return { success: false, reason: 'NO_SMTP_CONFIG' };
   }
 };
 
@@ -129,13 +112,8 @@ const sendRegisterOtpEmail = async ({ email, name, otp }) => {
 const sendForgotPasswordOtpEmail = async ({ email, name, otp }) => {
   const senderEmail = process.env.SMTP_USER || process.env.GMAIL_USER || process.env.EMAIL_USER || 'no-reply@equallysplit.com';
   
-  console.log('\n==========================================');
-  console.log(`🔑 [FORGOT PASSWORD OTP GENERATED FOR ${email}]`);
-  console.log(`👤 Name: ${name}`);
-  console.log(`✨ 6-DIGIT OTP CODE: [ ${otp} ]`);
-  console.log('==========================================\n');
-
   const transporter = createTransporter();
+  if (!transporter) throw new Error('Email delivery is not configured. Set SMTP_USER and SMTP_PASS in server/.env.');
   
   if (transporter) {
     try {
@@ -159,12 +137,9 @@ const sendForgotPasswordOtpEmail = async ({ email, name, otp }) => {
       console.log(`✉️ SUCCESS: Password Reset Real Email OTP sent to ${email}`);
       return { success: true };
     } catch (err) {
-      console.error('❌ Nodemailer Error sending password reset email:', err.message);
-      return { success: false, error: err.message };
+      console.error('Email delivery failed:', err.message);
+      throw new Error('Could not deliver the OTP email. Check SMTP settings and try again.');
     }
-  } else {
-    console.warn(`⚠️ REAL EMAIL NOT SENT: Please set SMTP_USER and SMTP_PASS in server/.env file.`);
-    return { success: false, reason: 'NO_SMTP_CONFIG' };
   }
 };
 

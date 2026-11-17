@@ -84,6 +84,9 @@ const sendRegisterOtp = async (req, res) => {
     });
   } catch (error) {
     console.error('Send register OTP error:', error);
+    if (req.body.email) {
+      await Otp.deleteMany({ email: req.body.email.toLowerCase().trim(), inviteCode: 'REGISTER' }).catch(() => {});
+    }
     res.status(500).json({ message: 'Server error generating registration OTP' });
   }
 };
@@ -189,6 +192,9 @@ const sendForgotPasswordOtp = async (req, res) => {
     });
   } catch (error) {
     console.error('Send forgot password OTP error:', error);
+    if (req.body.email) {
+      await Otp.deleteMany({ email: req.body.email.toLowerCase().trim(), inviteCode: 'FORGOT_PASSWORD' }).catch(() => {});
+    }
     res.status(500).json({ message: 'Server error sending password reset OTP' });
   }
 };

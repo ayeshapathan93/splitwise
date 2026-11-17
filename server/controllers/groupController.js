@@ -332,11 +332,16 @@ const sendInviteOtp = async (req, res) => {
 
     res.json({
       message: `6-Digit OTP sent successfully to ${cleanEmail}. Please check in Spam email box`,
-      devOtp: otp, // Included for instant local dev testing
       groupName: group.name
     });
   } catch (error) {
     console.error('Send OTP error:', error);
+    if (req.body.email && req.body.inviteCode) {
+      await Otp.deleteMany({
+        email: req.body.email.toLowerCase().trim(),
+        inviteCode: req.body.inviteCode
+      }).catch(() => {});
+    }
     res.status(500).json({ message: 'Server error generating OTP' });
   }
 };
